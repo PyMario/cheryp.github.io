@@ -1,1 +1,100 @@
-eeee
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日密码生成器</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #1a73e8;
+            margin-bottom: 20px;
+        }
+        #password-display {
+            font-size: 2em;
+            font-weight: bold;
+            color: #1e8e3e; /* Changed color for addition result */
+            background-color: #e6f4ea; /* Changed color for addition result */
+            padding: 15px 25px;
+            border-radius: 5px;
+            border: 1px solid #b7e1c7; /* Changed color for addition result */
+            letter-spacing: 2px;
+            font-family: "Courier New", Courier, monospace;
+        }
+        #date-display {
+            margin-top: 15px;
+            font-size: 1em;
+            color: #5f6368;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>每日动态密码</h1>
+        <div id="password-display">正在计算...</div>
+    </div>
+
+    <script>
+        function calculatePassword() {
+            // 0-9 对应的密码表
+            const passwordMap = {
+                '0': '213518',
+                '1': '658035',
+                '2': '235657',
+                '3': '567534',
+                '4': '647825',
+                '5': '234700',
+                '6': '127347',
+                '7': '648924',
+                '8': '733782',
+                '9': '553456'
+            };
+
+            // 获取当前日期
+            const today = new Date();
+            // 使用 slice(-2) 获取年份的后两位
+            const year = String(today.getFullYear()).slice(-2); 
+            // getMonth() 返回 0-11，所以需要+1。padStart确保月份是两位数
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            // padStart确保日期是两位数
+            const day = String(today.getDate()).padStart(2, '0');
+
+            // 格式化日期为 YYMMDD
+            const dateString = `${year}${month}${day}`;
+
+            // 获取日期的最后一位数字
+            const lastDigitOfDay = day.slice(-1);
+
+            // 从密码表中查找对应的6位数字
+            const passwordSuffix = passwordMap[lastDigitOfDay];
+
+            // 将日期字符串和密码后缀都转换为数字，然后相加
+            const finalPassword = Number(dateString) + Number(passwordSuffix);
+
+            // 将密码和计算过程显示在页面上
+            document.getElementById('password-display').textContent = finalPassword;
+        }
+
+        // 页面加载时执行计算
+        window.onload = calculatePassword;
+    </script>
+
+</body>
+</html>
